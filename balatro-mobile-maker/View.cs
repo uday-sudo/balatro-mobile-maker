@@ -33,6 +33,9 @@ internal class View
         _cleaup = AskQuestion("Would you like to automatically clean up once complete?");
         _verboseMode = AskQuestion("Would you like to enable extra logging information?");
 
+        //Checks if the game executable was already present in the directory
+        gameProvided = Platform.gameExists();
+
         //If balatro.apk or balatro.ipa already exists, ask before beginning build process again
         if (!(fileExists("balatro.apk") || fileExists("balatro.ipa")) || AskQuestion("A previous build was found... Would you like to build again?"))
         {
@@ -86,8 +89,6 @@ internal class View
 
                 #region Prepare workspace
                 #region Find and extract Balatro.exe
-
-                gameProvided = Platform.gameExists();
 
                 if (gameProvided)
                     Log("Game found!");
