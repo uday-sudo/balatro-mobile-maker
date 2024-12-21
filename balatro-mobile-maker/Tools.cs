@@ -234,6 +234,18 @@ internal class Tools
         return input == "y";
     }
 
+    /// <summary>
+    /// Prompt user for a question
+    /// </summary>
+    /// <param name="question">Prompt for the user</param>
+    /// <returns>String, users answer</returns>
+    public static string AskQuestionSubjective(string question)
+    {
+        Log(question + ":");
+        string input = Console.ReadLine();
+        return input;
+    }
+
     public static void ModifyZip()
     {
         string existingZipFile = "balatro-base.zip";
