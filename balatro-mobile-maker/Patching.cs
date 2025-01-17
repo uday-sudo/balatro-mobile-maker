@@ -56,7 +56,7 @@ internal class Patching
     /// Prompts the user to select which patches they want, then applies them.
     /// </summary>
     // This is hideous, but it works.
-    public static void Begin()
+    public static void Begin(bool androidBuild, bool iosBuild)
     {
         Log("Applying mobile compatibilty patch...");
         //Android platform support
@@ -139,14 +139,18 @@ internal class Patching
             ApplyPatch("Balatro/game.lua", "G.SHADERS['CRT'])", "");
         }
 
-        versionName = AskQuestionSubjective("Would you like to specify a custom version name? Leave empty if you aren't sure");
+
         // Setting correct version name in Android builds
-        if (string.IsNullOrWhiteSpace(versionName))
+        if (androidBuild) 
         {
-            versionName = File.ReadAllLines("Balatro/version.jkr").First();
-            Log("Detected version of game: " + versionName);
+            versionName = AskQuestionSubjective("Would you like to specify a custom version name? Leave empty if you aren't sure");
+            if (string.IsNullOrWhiteSpace(versionName))
+            {
+                versionName = File.ReadAllLines("Balatro/version.jkr").First();
+                Log("Detected version of game: " + versionName);
+            }
+            ApplyPatch("balatro-apk/AndroidManifest.xml", "android:versionName=\"1.0.0n-FULL\"", "android:versionName=\""+versionName+"\"");
         }
-        ApplyPatch("balatro-apk/AndroidManifest.xml", "android:versionName=\"1.0.0n-FULL\"", "android:versionName=\""+versionName+"\"");
 
         //TODO: Better command line args handling
         if (Program.ArgsEnableAccessibleSave && AskQuestion("Would you like to apply the external storage patch? (NOT recommended)"))

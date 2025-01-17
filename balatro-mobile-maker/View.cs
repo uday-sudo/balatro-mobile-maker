@@ -189,7 +189,7 @@ internal class View
 
                 #region Patch
                 Log("Patching...");
-                Patching.Begin();
+                Patching.Begin(_androidBuild, _iosBuild);
                 #endregion
 
                 #region Building
